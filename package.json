@@ -6,7 +6,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "deploy": "wrangler pages deploy dist --project-name=rover",
+    "deploy": "wrangler pages deploy dist --project-name=${CLOUDFLARE_PAGES_PROJECT_NAME:-rover}",
     "astro": "astro"
   },
   "dependencies": {
