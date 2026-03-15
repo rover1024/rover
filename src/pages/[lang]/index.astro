@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BentoHome from '../../components/bento/BentoHome';
+import { fetchGitHubUser } from '../../lib/github';
+import { useTranslations } from '../../i18n/utils';
+
+export function getStaticPaths() {
+  return [
+    {params: {lang: 'zh-CN'}},
+    {params: {lang: 'zh-TW'}},
+    {params: {lang: 'en'}},
+  ];
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang);
+const user = await fetchGitHubUser();
+---
+
+<BaseLayout lang={lang} title={`Rover — ${t('about.subtitle')}`}>
+  <BentoHome
+    avatarUrl={user.avatar_url}
+    name={user.name || user.login}
+    githubUrl={user.html_url}
+    lang={lang}
+    client:load
+  />
+</BaseLayout>

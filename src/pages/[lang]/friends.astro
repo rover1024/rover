@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionBlock from '../../components/SectionBlock';
+import FriendCard from '../../components/FriendCard';
+import { friends } from '../../data/friends';
+import { useTranslations } from '../../i18n/utils';
+
+export function getStaticPaths() {
+  return [
+    {params: {lang: 'zh-CN'}},
+    {params: {lang: 'zh-TW'}},
+    {params: {lang: 'en'}},
+  ];
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang);
+---
+
+<BaseLayout lang={lang} title={`${t('friends.title')} — Rover`} description="一些我欣赏和关注的优秀开发者。">
+  <section class="pt-32 pb-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <!-- Header -->
+      <SectionBlock client:visible>
+        <div class="text-center mb-16">
+          <h1 class="text-4xl md:text-5xl font-bold font-[family-name:var(--font-display)] text-[var(--color-text-primary)] mb-4">
+            {t('friends.title')}
+          </h1>
+          <p class="text-lg text-[var(--color-text-secondary)] max-w-2xl mx-auto">
+            {t('friends.subtitle')}
+          </p>
+          <div class="w-20 h-1 bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-purple)] rounded-full mx-auto mt-6"></div>
+        </div>
+      </SectionBlock>
+
+      <!-- Friend cards grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        {friends.map((friend, i) => (
+          <FriendCard friend={friend} index={i} lang={lang} client:visible />
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,160 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionBlock from "../../components/SectionBlock";
+import { fetchGitHubUser } from "../../lib/github";
+import { useTranslations } from "../../i18n/utils";
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: "zh-CN" } },
+    { params: { lang: "zh-TW" } },
+    { params: { lang: "en" } },
+  ];
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang);
+const user = await fetchGitHubUser();
+
+const skills = [
+  "React",
+  "Vue",
+  "TypeScript",
+  "Node.js",
+  "Go",
+  "Astro",
+  "Next.js",
+  "Tailwind CSS",
+  "PostgreSQL",
+  "Redis",
+  "Docker",
+  "GraphQL",
+  "Rust",
+  "WebGL",
+  "Figma",
+];
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${t("about.title")} — Rover`}
+  description="了解更多关于 Rover 的故事、技能和经历。"
+>
+  <section class="pt-32 pb-20">
+    <div class="max-w-4xl mx-auto px-6">
+      <!-- Header with avatar -->
+      <SectionBlock client:visible>
+        <div class="flex flex-col md:flex-row items-center gap-8 mb-16">
+          <div class="relative group">
+            <div
+              class="absolute -inset-1.5 bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-purple)] rounded-full opacity-50 group-hover:opacity-100 blur-md transition-opacity duration-500"
+            >
+            </div>
+            <img
+              src={user.avatar_url}
+              alt={user.name || user.login}
+              style={{ viewTransitionName: "avatar" } as React.CSSProperties}
+              class="relative w-24 h-24 rounded-full border-2 border-[var(--color-bg-primary)] object-cover"
+            />
+          </div>
+          <div>
+            <h1
+              class="text-4xl md:text-5xl font-bold font-[family-name:var(--font-display)] text-[var(--color-text-primary)] mb-2"
+            >
+              {t("about.title")}
+            </h1>
+            <p class="text-lg text-[var(--color-text-secondary)]">
+              {t("about.subtitle")}
+            </p>
+          </div>
+        </div>
+      </SectionBlock>
+
+      <!-- Story paragraphs -->
+      <div class="space-y-8 mb-20">
+        <SectionBlock delay={0.1} client:visible>
+          <p class="text-lg leading-relaxed text-[var(--color-text-secondary)]">
+            {t("about.story.p1")}
+          </p>
+        </SectionBlock>
+
+        <SectionBlock delay={0.2} client:visible>
+          <p class="text-lg leading-relaxed text-[var(--color-text-secondary)]">
+            {t("about.story.p2")}
+          </p>
+        </SectionBlock>
+
+        <SectionBlock delay={0.3} client:visible>
+          <p class="text-lg leading-relaxed text-[var(--color-text-secondary)]">
+            {t("about.story.p3")}
+          </p>
+        </SectionBlock>
+
+        <SectionBlock delay={0.4} client:visible>
+          <p class="text-lg leading-relaxed text-[var(--color-text-secondary)]">
+            {t("about.story.p4")}
+          </p>
+        </SectionBlock>
+      </div>
+
+      <!-- Skills -->
+      <SectionBlock delay={0.2} client:visible>
+        <div class="mb-16">
+          <h2
+            class="text-2xl font-bold font-[family-name:var(--font-display)] text-[var(--color-text-primary)] mb-8 text-center"
+          >
+            {t("about.skills")}
+          </h2>
+          <div class="flex flex-wrap justify-center gap-3">
+            {
+              skills.map((skill, i) => (
+                <span
+                  class="px-4 py-2 rounded-xl text-sm font-medium
+                       bg-[var(--color-bg-secondary)] text-[var(--color-text-secondary)]
+                       border border-[var(--color-border)]
+                       hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]
+                       hover:bg-[var(--color-accent)]/5
+                       hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[var(--color-accent)]/10
+                       transition-all duration-300 cursor-default"
+                  style={`animation-delay: ${i * 50}ms`}
+                >
+                  {skill}
+                </span>
+              ))
+            }
+          </div>
+        </div>
+      </SectionBlock>
+
+      <!-- Stats -->
+      <SectionBlock delay={0.3} client:visible>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {
+            [
+              { label: t("about.stats.experience"), value: "3+" },
+              {
+                label: t("about.stats.projects"),
+                value: `${user.public_repos}+`,
+              },
+              { label: t("about.stats.followers"), value: `${user.followers}` },
+              { label: t("about.stats.coffee"), value: "∞" },
+            ].map((stat) => (
+              <div
+                class="text-center p-6 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)]
+                        hover:border-[var(--color-accent)]/30 hover:shadow-lg hover:shadow-[var(--color-accent)]/5
+                        transition-all duration-300"
+              >
+                <div class="text-3xl font-bold font-[family-name:var(--font-display)] bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-purple)] bg-clip-text text-transparent mb-1">
+                  {stat.value}
+                </div>
+                <div class="text-sm text-[var(--color-text-muted)]">
+                  {stat.label}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </SectionBlock>
+    </div>
+  </section>
+</BaseLayout>
