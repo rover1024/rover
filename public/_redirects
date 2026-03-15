@@ -1,0 +1,5 @@
+# Root → default locale (English), instant 302 so no "redirect" flash
+/   /en/   302
+/about   /en/about   302
+/projects   /en/projects   302
+/friends   /en/friends   302

@@ -37,13 +37,14 @@ export default defineConfig({
   },
 
   redirects: {
-    '/about': '/zh-CN/about',
-    '/projects': '/zh-CN/projects',
-    '/friends': '/zh-CN/friends'
+    '/': '/en/',
+    '/about': '/en/about',
+    '/projects': '/en/projects',
+    '/friends': '/en/friends'
   },
 
   i18n: {
-    defaultLocale: 'zh-CN',
+    defaultLocale: 'en',
     locales: ['zh-CN', 'zh-TW', 'en'],
     routing: {
       prefixDefaultLocale: true,
