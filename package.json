@@ -6,6 +6,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "deploy": "wrangler pages deploy dist --project-name=rover",
     "astro": "astro"
   },
   "dependencies": {
@@ -26,5 +27,8 @@
     "react-dom": "^19.2.4",
     "tailwindcss": "^4.2.1",
     "three": "^0.183.2"
+  },
+  "devDependencies": {
+    "wrangler": "^3.91.0"
   }
 }
